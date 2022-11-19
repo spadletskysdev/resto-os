@@ -15,8 +15,7 @@ router.post('/add', addDish);
 
 router.get('/menu', getMenu);
 
-router.get('/dish/:id', getDish);
-
 router.post('/dish/:id', editDish);
+router.get('/dish/:id', getDish);
 
 module.exports = router;
