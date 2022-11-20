@@ -112,7 +112,9 @@ const getDish = (req, res) => {
     
 };
 
+const login = (req, res) => {
+    
+}
 
 
-
-module.exports = { getMenu, getDish, addDish, editDish };
+module.exports = { getMenu, getDish, addDish, editDish, login };
