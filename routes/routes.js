@@ -5,17 +5,17 @@ const { getMenu, getDish, addDish, editDish} = require("../controllers/menu.js")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.redirect('menu');
+  res.redirect('admin/menu');
 });
 
-router.get('/add', (req, res) => {
+router.get('/:role/add', (req, res) => {
   res.render('add');
 });
-router.post('/add', addDish);
+router.post('/:role/add', addDish);
 
-router.get('/menu', getMenu);
+router.get('/:role/menu', getMenu);
 
-router.post('/dish/:id', editDish);
-router.get('/dish/:id', getDish);
+router.post('/:role/dish/:id', editDish);
+router.get('/:role/dish/:id', getDish);
 
 module.exports = router;

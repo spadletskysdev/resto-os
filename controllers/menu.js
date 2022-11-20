@@ -29,7 +29,7 @@ const addDish = (req, res, next) => {
                     if (err) {
                         throw err;
                     } else {
-                        res.redirect('menu')
+                        res.redirect('admin/menu')
                     }
                 })
             }
@@ -48,35 +48,48 @@ const getMenu = (req, res) => {
 }
 
 const editDish = (req, res, next) => {
-    var { image, name, description, price } = req.body
+    var { image, name, description, price, del } = req.body
     var id = req.params.id
     con.query('SELECT * FROM menu WHERE id=?', [id], (err, defaults, fields) => {
         if (err) {
             throw err;
         } else {
-            // Filter out the data
-            if (image == '' || image == undefined) {
-                image = defaults[0].image
-                console.log(image)
-            } if (name == '' || name == undefined) {
-                name = defaults[0].dishName
-                console.log(name)
-            } if (description == '' || description == undefined) {
-                description = defaults[0].description
-                console.log(description)
-            } if (price == '' || price == undefined) {
-                price = defaults[0].price
-                console.log(price)
-            }
-            con.query('UPDATE menu SET image = ?, dishName = ?, description = ?, price = ? WHERE id = ?', [image, name, description, price, id], (err, results, fields) => {
-                console.log('Updated the Database')
-                if (err) {
-                    throw err;
-                } else {
-                    res.redirect('/menu')
-                    console.log('Passed!')
+
+            if (del == 1) {
+                con.query('DELETE FROM menu WHERE id = ?', [id], (err, results, fields) => {
+                    if (err) {
+                        throw err;
+                    } else {
+                        res.redirect('/admin/menu')
+                    }
+                })
+            } else {
+                // Filter out the data
+                if (image == '' || image == undefined) {
+                    image = defaults[0].image
+                    console.log(image)
+                } if (name == '' || name == undefined) {
+                    name = defaults[0].dishName
+                    console.log(name)
+                } if (description == '' || description == undefined) {
+                    description = defaults[0].description
+                    console.log(description)
+                } if (price == '' || price == undefined) {
+                    price = defaults[0].price
+                    console.log(price)
                 }
-            })
+                con.query('UPDATE menu SET image = ?, dishName = ?, description = ?, price = ? WHERE id = ?', [image, name, description, price, id], (err, results, fields) => {
+                    console.log('Updated the Database')
+                    if (err) {
+                        throw err;
+                    } else {
+                        res.redirect('/admin/menu')
+                        console.log('Passed!')
+                    }
+                })
+            }
+
+            
         }
     })
 }
